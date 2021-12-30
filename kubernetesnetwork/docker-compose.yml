@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  auth:
+    build: ./auth-api
+  users:
+    build: ./users-api
+    environment:
+      AUTH_ADDRESS: auth
+      # AUTH_SERVICE_SERVICE_HOST is given by kebernetes 
+      # JS code uses this environment variable for kebernetes deployment
+      # include AUTH_SERVICE_SERVICE_HOST in order for docker-compose to work
+      AUTH_SERVICE_SERVICE_HOST: auth
+    ports:
+      - "8080:8080"
+  tasks:
+    build: ./tasks-api
+    ports:
+      - "8000:8000"
+    environment:
+      TASKS_FOLDER: tasks
+      AUTH_ADDRESS: auth
