@@ -1,0 +1,20 @@
+# auth deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    # spec should be inside template
+    spec:
+      containers:
+        - name: auth
+          image: breakosin/kubernetes-network-auth:1
+          imagePullPolicy: Always
