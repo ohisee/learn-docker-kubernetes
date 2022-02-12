@@ -1,0 +1,17 @@
+# auth is not public facing 
+# use ClusterIP because clusterIP is not reachable from outside
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth
+  # other types are LoadBalancer, NodePort
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      # outside facing port
+      port: 80
+      # inside pod
+      targetPort: 80
