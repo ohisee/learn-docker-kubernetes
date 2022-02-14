@@ -1,0 +1,20 @@
+# front-end react app deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    # spec should be inside template
+    spec:
+      containers:
+        - name: frontend
+          image: breakosin/kubernetes-network-frontend:1
+          imagePullPolicy: Always
