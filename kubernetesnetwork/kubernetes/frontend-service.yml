@@ -1,0 +1,16 @@
+# front-end react app service
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  # other types are clusterIP, NodePort
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      # outside facing port
+      port: 80
+      # inside pod
+      targetPort: 80
