@@ -1,0 +1,25 @@
+# tasks deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tasks
+  template:
+    metadata:
+      labels:
+        app: tasks
+    # spec should be inside template
+    spec:
+      containers:
+        - name: tasks
+          image: breakosin/kubernetes-network-tasks:1
+          imagePullPolicy: Always
+          env:
+            - name: AUTH_ADDRESS
+              value: "auth-service.default"
+            - name: TASKS_FOLDER
+              value: tasks
