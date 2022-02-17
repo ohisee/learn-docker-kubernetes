@@ -1,0 +1,16 @@
+# tasks service
+apiVersion: v1
+kind: Service
+metadata:
+  name: tasks-service
+spec:
+  selector:
+    app: tasks
+  # other types are ClusterIP, NodePort
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      # outside facing port
+      port: 8000
+      # inside pod
+      targetPort: 8000
