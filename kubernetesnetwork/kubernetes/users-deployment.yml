@@ -1,0 +1,38 @@
+# users deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    # spec should be inside template
+    spec:
+      containers:
+        - name: users
+          image: breakosin/kubernetes-network-users:2
+          imagePullPolicy: Always
+          # use localhost as IP address in kubernetes for 
+          # internal pod container to container communication
+          env:
+            - name: AUTH_ADDRESS
+              # localhost is removed after moving auth deployment to different pod 
+              # value: localhost
+
+              # use command kubectl get services to list all services running in minikube
+              # copy auth-service IP address from the output list and paste here
+              # value: "10.99.75.138"
+
+              # use domain name with name space created by kebernetes
+              # use default name space if not assigning any different namespace
+              value: "auth-service.default"
+        # moved to auth-deployment.yml
+        # - name: auth
+        #   image: breakosin/kubernetes-network-auth:1
+        #   imagePullPolicy: Always
