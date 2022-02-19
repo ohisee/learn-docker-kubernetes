@@ -1,0 +1,17 @@
+# service has fixed IP address
+# service allows excess from outside world 
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users
+  # other types are clusterIP, NodePort
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      # outside facing port
+      port: 8080
+      # inside pod
+      targetPort: 8080
