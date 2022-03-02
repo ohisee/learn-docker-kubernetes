@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story
+  template: 
+    metadata: 
+      labels:
+        app: story
+    spec: 
+      containers: 
+        - name: story
+          image: breakosin/kubernetes-data-volume-node-app:2
+          imagePullPolicy: Always
+          # set environment variables, process.env.STORY_FOLDER in server.js
+          env:
+            - name: STORY_FOLDER
+              # directly set value
+              # value: 'story'
+
+              # from config map
+              valueFrom:
+                configMapKeyRef:
+                  name: data-store-env
+                  key: folder
+          volumeMounts:
+            # /server path is defined in Dockerfile WORKDIR
+            - mountPath: /server/story
+              name: story-volume
+      volumes:
+        - name: story-volume
+          # create one emptyDir volume for each pod
+          # emptyDir: {}
+          
+          # path on host machine and multiple pods on same node share the same hostPath 
+          # hostPath:
+          #   path: /data
+          #   # create a directory '/data' if it does not exist
+          #   type: DirectoryOrCreate
+
+          # volume for the entire cluster
+          # connect pod(s) to persistent volume claim
+          # data should be independent from pod(s) and node(s)
+          persistentVolumeClaim:
+            claimName: host-pvc
