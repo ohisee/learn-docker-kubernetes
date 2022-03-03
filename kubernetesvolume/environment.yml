@@ -1,0 +1,9 @@
+# environment config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: data-store-env
+# key value pair
+data:
+  folder: 'story'
+  # key: value...
