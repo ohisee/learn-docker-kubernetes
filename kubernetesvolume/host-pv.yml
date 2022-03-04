@@ -1,0 +1,24 @@
+# Persistent volume
+# only for single-host local test environment
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  capacity:
+    # up to 1 Gigabyte(s)
+    storage: 1Gi
+  # Filesystem or Block
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    # all pods must be on the same node
+    - ReadWriteOnce
+    # not applicable for hostPath
+    # - ReadOnlyMany
+    # not applicable for hostPath
+    # - ReadWriteMany
+  hostPath:
+    path: /data
+    # create a directory '/data' if it does not exist
+    type: DirectoryOrCreate
